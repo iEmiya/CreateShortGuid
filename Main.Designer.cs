@@ -36,8 +36,9 @@
             this.Help = new System.Windows.Forms.Label();
             this.Format = new System.Windows.Forms.GroupBox();
             this.format3 = new System.Windows.Forms.RadioButton();
-            this.format2 = new System.Windows.Forms.RadioButton();
             this.format1 = new System.Windows.Forms.RadioButton();
+            this.format2 = new System.Windows.Forms.RadioButton();
+            this.tbShortGuid = new System.Windows.Forms.TextBox();
             this.Result.SuspendLayout();
             this.Format.SuspendLayout();
             this.SuspendLayout();
@@ -97,7 +98,7 @@
             this.Help.Size = new System.Drawing.Size(252, 55);
             this.Help.TabIndex = 1;
             this.Help.Text = "Выберите форматирование и нажмите «Copy» для помещения результата в буфер обмена." +
-                " Выберете «Exit» для завершения.";
+    " Выберете «Exit» для завершения.";
             // 
             // Format
             // 
@@ -123,18 +124,6 @@
             this.format3.UseVisualStyleBackColor = true;
             this.format3.CheckedChanged += new System.EventHandler(this.format3_CheckedChanged);
             // 
-            // format2
-            // 
-            this.format2.AutoSize = true;
-            this.format2.Location = new System.Drawing.Point(9, 42);
-            this.format2.Name = "format2";
-            this.format2.Size = new System.Drawing.Size(237, 17);
-            this.format2.TabIndex = 0;
-            this.format2.TabStop = true;
-            this.format2.Text = "2. Registry Format (ie. {xxxxxxx-xxxx ... xxxx })";
-            this.format2.UseVisualStyleBackColor = true;
-            this.format2.CheckedChanged += new System.EventHandler(this.format2_CheckedChanged);
-            // 
             // format1
             // 
             this.format1.AutoSize = true;
@@ -147,11 +136,32 @@
             this.format1.UseVisualStyleBackColor = true;
             this.format1.CheckedChanged += new System.EventHandler(this.format1_CheckedChanged);
             // 
+            // format2
+            // 
+            this.format2.AutoSize = true;
+            this.format2.Location = new System.Drawing.Point(9, 42);
+            this.format2.Name = "format2";
+            this.format2.Size = new System.Drawing.Size(237, 17);
+            this.format2.TabIndex = 0;
+            this.format2.TabStop = true;
+            this.format2.Text = "2. Registry Format (ie. {xxxxxxx-xxxx ... xxxx })";
+            this.format2.UseVisualStyleBackColor = true;
+            this.format2.CheckedChanged += new System.EventHandler(this.format2_CheckedChanged);
+            // 
+            // tbShortGuid
+            // 
+            this.tbShortGuid.Location = new System.Drawing.Point(12, 306);
+            this.tbShortGuid.Name = "tbShortGuid";
+            this.tbShortGuid.Size = new System.Drawing.Size(252, 20);
+            this.tbShortGuid.TabIndex = 3;
+            this.tbShortGuid.TextChanged += new System.EventHandler(this.tbShortGuid_TextChanged);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(357, 312);
+            this.ClientSize = new System.Drawing.Size(357, 332);
+            this.Controls.Add(this.tbShortGuid);
             this.Controls.Add(this.Format);
             this.Controls.Add(this.Help);
             this.Controls.Add(this.Result);
@@ -167,6 +177,7 @@
             this.Format.ResumeLayout(false);
             this.Format.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -182,6 +193,7 @@
         private System.Windows.Forms.RadioButton format2;
         private System.Windows.Forms.RadioButton format3;
         private System.Windows.Forms.RadioButton format1;
+        private System.Windows.Forms.TextBox tbShortGuid;
     }
 }
 

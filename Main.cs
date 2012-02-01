@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -14,7 +15,8 @@ namespace CreateShortGuid
             StaticConstStruct = 3,
         }
 
-        private ShortGuid _shortGuid;
+        private ShortGuid? _shortGuid;
+        private Color _tbShortGuidBackColor;
         private ShortGuidTypeView _typeView = ShortGuidTypeView.OnlyValue;
 
         public Main()
@@ -24,19 +26,19 @@ namespace CreateShortGuid
 
         private void Exit_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            _tbShortGuidBackColor = tbShortGuid.BackColor;
+            format1.Select();
             New_Click(this, EventArgs.Empty);
         }
 
         private void New_Click(object sender, EventArgs e)
         {
-            _shortGuid = ShortGuid.NewGuid();
-            SelectedFormat();
-            ShowShortGuid();
+            tbShortGuid.Text = Guid.NewGuid().ToString();
         }
 
         private void Copy_Click(object sender, EventArgs e)
@@ -67,22 +69,31 @@ namespace CreateShortGuid
 
         private string CopyShortGuid()
         {
-            var sb = new StringBuilder();
+            if (!_shortGuid.HasValue)
+            {
+                tbShortGuid.BackColor = Color.Red;
+                return string.Empty;
+            }
+
+            tbShortGuid.BackColor = _tbShortGuidBackColor;
+            Guid guid = _shortGuid.Value.Guid;
+            string str = _shortGuid.Value.Value;
+            StringBuilder builder = new StringBuilder();
             switch (_typeView)
             {
                 case ShortGuidTypeView.OnlyValue:
-                    sb.AppendLine("\"" + _shortGuid.Value + "\"");
+                    builder.Append("\"" + str + "\"");
                     break;
                 case ShortGuidTypeView.RegistryFormat:
-                    sb.AppendLine("//" + _shortGuid.Guid.ToString("B").ToUpper());
-                    sb.AppendLine("\"" + _shortGuid.Value + "\"");
+                    builder.AppendLine("//" + guid.ToString("B").ToUpper());
+                    builder.Append("\"" + str + "\"");
                     break;
                 case ShortGuidTypeView.StaticConstStruct:
-                    sb.AppendLine("//" + _shortGuid.Guid.ToString("B").ToUpper());
-                    sb.AppendLine("static ShortGuid <<name>> = new ShortGuid(\"" + _shortGuid.Value + "\");");
+                    builder.AppendLine("//" + guid.ToString("B").ToUpper());
+                    builder.Append("static ShortGuid <<name>> = new ShortGuid(\"" + str + "\");");
                     break;
             }
-            return sb.ToString();
+            return builder.ToString();
         }
 
         private void format1_CheckedChanged(object sender, EventArgs e)
@@ -106,6 +117,17 @@ namespace CreateShortGuid
             if (!format3.Checked) return;
 
             _typeView = ShortGuidTypeView.StaticConstStruct;
+            ShowShortGuid();
+        }
+
+        private void tbShortGuid_TextChanged(object sender, EventArgs e)
+        {
+            ShortGuid guid;
+            _shortGuid = null;
+            if (ShortGuid.TryParse(tbShortGuid.Text.Trim(), out guid))
+            {
+                _shortGuid = new ShortGuid?(guid);
+            }
             ShowShortGuid();
         }
     }

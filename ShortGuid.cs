@@ -196,6 +196,40 @@ namespace CreateShortGuid
 
         #endregion
 
+        #region Parse
+
+        public static ShortGuid Parse(string s)
+        {
+            return new ShortGuid(new Guid(s));
+        }
+
+        public static bool TryParse(string s, out ShortGuid result)
+        {
+            result = Empty;
+            Guid empty = Guid.Empty;
+            try
+            {
+                empty = new Guid(s);
+                result = new ShortGuid(empty);
+                return true;
+            }
+            catch
+            {
+                bool flag = false;
+                try
+                {
+                    result = new ShortGuid(s);
+                    flag = true;
+                }
+                catch
+                {
+                }
+                return flag;
+            }
+        }
+
+        #endregion
+
         #region Operators
 
         /// <summary>
